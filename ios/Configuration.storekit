@@ -1,0 +1,71 @@
+{
+  "products" : [
+
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "D1E2990C",
+      "localizations" : [
+
+      ],
+      "name" : "AGS Tribe Plans",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "99.9",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "5A2633F6",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "ags_gold_50000",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Gold",
+          "subscriptionGroupID" : "D1E2990C",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "10",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "76A868CF",
+          "introductoryOffer" : {
+            "displayPrice" : "",
+            "internalID" : "69CC9025",
+            "paymentMode" : "none"
+          },
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "ags_silver_5000",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Silver",
+          "subscriptionGroupID" : "D1E2990C",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 1,
+    "minor" : 0
+  }
+}

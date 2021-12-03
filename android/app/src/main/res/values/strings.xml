@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Herconomy(Beta)</string>
+    <!-- <string moduleConfig="true" name="CodePushDeploymentKey">mJpiLD6W3RNBRGxu0eBkVj9_RGy7RYJhGaSJH</string> -->
+    <string moduleConfig="true" name="CodePushDeploymentKey">wsO-aEi8B5TITK9KQNBpKMKvj4ztaNTE3-FaO</string>
+</resources>
