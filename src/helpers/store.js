@@ -49,6 +49,12 @@ const communityModel = {
   fetch_contact : false,
   msg_senders : null,
   gql_token : null,
+  tourscreen: true,
+
+
+  updatetourscreen : action((state, data)=>{
+    return (state.tourscreen = data)
+  }),
   
   //Actions
   updateAnsweredBreakers: action((state, data) => {

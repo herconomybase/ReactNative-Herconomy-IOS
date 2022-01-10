@@ -511,6 +511,7 @@ export const DrawerMenu = props => {
   }
   const getAllGroups = () => {
     global.socket.off(`get_all_groups_${userD.id}`).on(`get_all_groups_${userD.id}`, ({res}) => {
+      console.log(' chinedu getAllGroup',res);
       if(res.message) return
       Array.isArray(res) ? res.sort((a, b) => a.name.localeCompare(b.name)) : null;
       if(Array.isArray(res)){
@@ -595,8 +596,8 @@ export const DrawerMenu = props => {
               <H2 fontSize={9} color={i === props.state.index ? Colors.white : Colors.greyBase900}>
                 {el.name === 'ReferEarn'
                   ? 'Refer & Earn'
-                  : el.name === 'Herconomy'
-                  ? 'Herconomy'
+                  : el.name === 'Affinity'
+                  ? 'Discounts'
                   : el.name === 'GiftSomeone'
                   ? 'Gift Someone'
                   : el.name === 'Privacy'

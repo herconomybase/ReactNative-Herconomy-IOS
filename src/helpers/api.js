@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { storeData } from './functions';
-//export const endPoint = 'https://api.agstribe.org/api/v1';
-export const endPoint = 'https://stagging.agstribe.org/api/v1';
-export const base_ql_url = "https://socket-staging.agstribe.org/graphql"
-export const base_ql_http = "https://socket-staging.agstribe.org"
+export const endPoint = 'https://api.herconomy.com/api/v1';
+//export const endPoint = 'https://stagging.agstribe.org/api/v1';
+export const base_ql_url = "https://socket-live.herconomy.com/graphql"
+export const base_ql_http = "https://socket-live.herconomy.com"
 
 export const apiFunctions = {
   registration: async fd => postNoToken('/rest-auth/registration/', fd),
@@ -160,10 +160,13 @@ export const apiFunctions = {
   getContacts : async (token) => getAPIs('/chats/get_contact_info/',token),
   passwordSavings : async (token,fd) => postAPIs('/users/verify_password_savings/',token,fd),
   deactivate_user  : async (token) => postAPIs(`/users/deactivate_user/`,token),
-  send_mail : async (token,fd) => postAPIs(`/users/send_mail_after_login/`,token,fd)
+  send_mail : async (token,fd) => postAPIs(`/users/send_mail_after_login/`,token,fd),
+  updateTourscreen : async (token,fd) => postAPIs(`/welcome/tourscreen`,token,fd)
+
 };
 
 export const getAPIs = (path, token) => {
+  console.log('path',path)
   const source = axios.CancelToken.source();
   global.cancel = source.cancel
   return new Promise((resolve, reject) => {
@@ -183,6 +186,7 @@ export const getAPIs = (path, token) => {
         cancelToken : source.token
       })
       .then(result => {
+        console.log('result',result)
         resolve(result.data);
       })
       .catch(error => {

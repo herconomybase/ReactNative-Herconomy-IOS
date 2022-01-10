@@ -98,6 +98,7 @@ const SignUp = props => {
         // console.log(res);
         if (res) {
           setLoading(false);
+          storeData('tourscreen', true)
           setCurrentState('onboard');
         }
       })
@@ -141,6 +142,8 @@ const SignUp = props => {
         updateUser(res.data.user);
         updateToken(res.data.token);
         global.token = res.token;
+        storeData('tourscreen', true)
+
         res.data.user.onboarded ? setCurrentState('main') : setCurrentState('onboard');
 
         setAppleLoading(false);
@@ -181,6 +184,7 @@ const SignUp = props => {
       console.log(res);
       if (res) {
         setLoading(false);
+        storeData('tourscreen', true)
         setCurrentState('onboard');
       }
     } catch (error) {

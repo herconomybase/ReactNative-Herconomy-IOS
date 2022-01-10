@@ -18,20 +18,24 @@ import Groups from './groups/group';
 import Notify from './notify';
 import IAP from 'react-native-iap';
 import { FONTSIZE } from '../../../helpers/constants';
+import Modaltour from './Modal';
 
 
 const Home = props => {
   const {user, token,msg_senders} = useStoreState(state => ({
     user: state.userDetails.user,
     token: state.userDetails.token,
-    msg_senders : state.community.msg_senders
+    msg_senders : state.community.msg_senders,
+
   }));
 
-  const {_updateUser, _updateSubscriptionStatus} = useStoreActions(actions => ({
+  const {_updateUser, _updateSubscriptionStatus } = useStoreActions(actions => ({
     _updateUser: actions.userDetails.updateUser,
     _updateSubscriptionStatus: actions.userDetails.updateSubscriptionStatus,
   }));
   
+
+  // const {tourscreen} = useStoreState(state =>(state.tourscreen))
 
   const [isLoading,setLoading] = useState(true);
   const [account,setAccount] = useState({});
@@ -39,6 +43,8 @@ const Home = props => {
   const [senders,setSenders] = useState([]);
   const [dismisedQue,setDismissedQue] = useState([]);
   const [iceBreakerQuestion, setIceBreakerQuestion] = React.useState([]);
+  const [tourscreen,setTourscreen] = useState(false);
+
   const {updateTotNotification,updateSenders} = useStoreActions(action=>({
     updateTotNotification : action.notification.updateTotNotification,
     updateSenders : action.community.updateSenders
@@ -100,6 +106,7 @@ const Home = props => {
     });
   };
 
+  
   const checkSubscription = async () => {
     try {
       const res = await apiFunctions.subscriptionStatus(token);
@@ -162,6 +169,23 @@ const Home = props => {
     }
   }
 
+  console.log('tourscreen value',tourscreen);
+  const closetourscreen = async ()=> {
+      try {
+  let tourscreen =  await getData('tourscreen');
+     console.log('tourscreen value',tourscreen)
+     setTourscreen(tourscreen);
+    } catch (error) {
+            console.log('Error', error);
+         }
+  };
+
+  useEffect(() => {
+    closetourscreen();
+  }, [])
+
+
+
   useFocusEffect(
     React.useCallback(() => {
       if(!notify_id){
@@ -223,6 +247,8 @@ const Home = props => {
 
   return (
       <React.Fragment>
+         {tourscreen && <Modaltour   />}
+
           {
             notify_id ? (
               <Notify props={props} notification_id={notify_id} setNotify={setNotify}/>

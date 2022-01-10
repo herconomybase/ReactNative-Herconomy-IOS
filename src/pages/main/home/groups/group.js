@@ -138,6 +138,7 @@ const Groups = props => {
       setLoading(true);
       setRetry(false);
       let res = await apiFunctions.getSuggestedGroups(token);
+      console.log("suggested groups", res)
       setSuggested(res);
     } catch (error) {
       setLoading(false);

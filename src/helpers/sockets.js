@@ -5,8 +5,8 @@ import {ToastShort} from './utils';
 import {storeData} from './functions';
 
 export const socketConnection = () => {
-  let url = "https://socket-staging.agstribe.org";
-  //let url = 'https://socket-live.agstribe.org';
+ // let url = "https://socket-staging.agstribe.org";
+  let url = 'https://socket-live.herconomy.com';
   let socket = io(`${url}`,{
     transports: ['websocket'],
     pingTimeout: 600000,

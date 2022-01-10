@@ -104,6 +104,7 @@ const SignIn = props => {
         let token = await getData("token")
         apiFunctions.send_mail(token,fd);
         setLoading(false);
+        storeData('tourscreen', true)
         res.onboarded ? setCurrentState('main') : setCurrentState('onboard');
       }
     } catch (error) {
@@ -128,6 +129,7 @@ const SignIn = props => {
         updateUser(res.data.user);
         updateToken(res.data.token);
         global.token = res.token;
+        storeData('tourscreen', true)
         res.data.user.onboarded ? setCurrentState('main') : setCurrentState('onboard');
 
         setLoading(false);
