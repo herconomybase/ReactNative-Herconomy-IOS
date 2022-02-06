@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { storeData } from './functions';
+import {storeData} from './functions';
 export const endPoint = 'https://api.herconomy.com/api/v1';
 //export const endPoint = 'https://stagging.agstribe.org/api/v1';
-export const base_ql_url = "https://socket-live.herconomy.com/graphql"
-export const base_ql_http = "https://socket-live.herconomy.com"
+export const base_ql_url = 'https://socket-live.herconomy.com/graphql';
+export const base_ql_http = 'https://socket-live.herconomy.com';
 
 export const apiFunctions = {
   registration: async fd => postNoToken('/rest-auth/registration/', fd),
@@ -148,53 +148,57 @@ export const apiFunctions = {
   updateGroupEvent: async (token, group_id, fd) => storeFilePut(`/group_event/${group_id}/update_grp_event/`, token, fd),
   getMsgNotification: async token => getAPIs('/chats/get_viewed_messages/', token),
   updateMsgNotification: async token => postAPIs('/chats/update_viewed_messaages/', token),
-  getPreference : async (token) => getAPIs(`/users/user_select_notification/`,token),
-  updatePreference : async (token,fd) => postAPIs(`/users/user_select_notification/`,token,fd),
-  generalUpdate : async (token) => putAPIs(`/push/general_update/`,token),
-  getAllGroups : async (token) => getAPIs(`/groups/`,token),
-  getAllTopics : async (token) => getAPIs(`/topics/`,token),
-  getGrpPost : async (token,grp_id) => getAPIs(`/groups/${grp_id}/get_posts/`,token),
-  getCurrentVersion : async (token) => getAPIs(`/version/get_app_version/`,token),
-  getNotification : async (token,notification_id) => getAPIs(`/push/${notification_id}/`,token),
-  getFeeds: async (token,page) => getAPIs(`/feeds/?page=${page}`, token),
-  getContacts : async (token) => getAPIs('/chats/get_contact_info/',token),
-  passwordSavings : async (token,fd) => postAPIs('/users/verify_password_savings/',token,fd),
-  deactivate_user  : async (token) => postAPIs(`/users/deactivate_user/`,token),
-  send_mail : async (token,fd) => postAPIs(`/users/send_mail_after_login/`,token,fd),
-  updateTourscreen : async (token,fd) => postAPIs(`/welcome/tourscreen`,token,fd)
-
+  getPreference: async token => getAPIs(`/users/user_select_notification/`, token),
+  updatePreference: async (token, fd) => postAPIs(`/users/user_select_notification/`, token, fd),
+  generalUpdate: async token => putAPIs(`/push/general_update/`, token),
+  getAllGroups: async token => getAPIs(`/groups/`, token),
+  getAllTopics: async token => getAPIs(`/topics/`, token),
+  getGrpPost: async (token, grp_id) => getAPIs(`/groups/${grp_id}/get_posts/`, token),
+  getCurrentVersion: async token => getAPIs(`/version/get_app_version/`, token),
+  getNotification: async (token, notification_id) => getAPIs(`/push/${notification_id}/`, token),
+  getFeeds: async (token, page) => getAPIs(`/feeds/?page=${page}`, token),
+  getContacts: async token => getAPIs('/chats/get_contact_info/', token),
+  passwordSavings: async (token, fd) => postAPIs('/users/verify_password_savings/', token, fd),
+  deactivate_user: async token => postAPIs(`/users/deactivate_user/`, token),
+  send_mail: async (token, fd) => postAPIs(`/users/send_mail_after_login/`, token, fd),
+  updateTourscreen: async (token, fd) => postAPIs(`/welcome/tourscreen`, token, fd),
 };
 
 export const getAPIs = (path, token) => {
-  console.log('path',path)
+  // console.log('path', path);
   const source = axios.CancelToken.source();
-  global.cancel = source.cancel
+  global.cancel = source.cancel;
   return new Promise((resolve, reject) => {
-    let split = path.split("/?");
-    let url = split && split.length > 1 ? 
-    `${endPoint}${path}&timestamp=${new Date().getTime()}` : 
-    `${endPoint}${path}?timestamp=${new Date().getTime()}`;
+    let split = path.split('/?');
+    let url =
+      split && split.length > 1
+        ? `${endPoint}${path}&timestamp=${new Date().getTime()}`
+        : `${endPoint}${path}?timestamp=${new Date().getTime()}`;
     axios
-      .get(`${url}`, {
-        headers: {
-          Authorization: `JWT ${token}`,
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': 0
+      .get(
+        `${url}`,
+        {
+          headers: {
+            Authorization: `JWT ${token}`,
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            Pragma: 'no-cache',
+            Expires: 0,
+          },
         },
-      },{
-        cancelToken : source.token
-      })
+        {
+          cancelToken: source.token,
+        },
+      )
       .then(result => {
-        console.log('result',result)
+        // console.log('result', result);
         resolve(result.data);
       })
       .catch(error => {
         if (axios.isCancel(error)) return;
-        logError(endPoint,path,error)
+        logError(endPoint, path, error);
         reject({status: 500, msg: error.response.data});
       });
-    setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
+    // setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
   });
 };
 
@@ -213,7 +217,7 @@ const postAPIs = (path, token, fd) => {
         resolve(result.data);
       })
       .catch(error => {
-        logError(endPoint,path,error)
+        logError(endPoint, path, error);
         if (error.response) {
           reject({status: 500, msg: error.response.data});
         } else {
@@ -221,7 +225,7 @@ const postAPIs = (path, token, fd) => {
         }
       });
 
-    setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
+    // setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
   });
 };
 
@@ -240,7 +244,7 @@ const putAPIs = (path, token, fd) => {
         resolve(result.data);
       })
       .catch(error => {
-        logError(endPoint,path,error)
+        logError(endPoint, path, error);
         if (error.response) {
           reject({status: 500, msg: error.response.data});
         } else {
@@ -248,7 +252,7 @@ const putAPIs = (path, token, fd) => {
         }
       });
 
-    setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
+    // setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
   });
 };
 
@@ -267,7 +271,7 @@ const patchAPIs = (path, token, fd) => {
         resolve(result.data);
       })
       .catch(error => {
-        logError(endPoint,path,error)
+        logError(endPoint, path, error);
         if (error.response) {
           reject({status: 500, msg: error.response.data});
         } else {
@@ -275,7 +279,7 @@ const patchAPIs = (path, token, fd) => {
         }
       });
 
-    setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
+    // setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
   });
 };
 
@@ -291,7 +295,7 @@ const postNoToken = (path, fd) => {
         resolve(result.data);
       })
       .catch(error => {
-        logError(endPoint,path,error)
+        logError(endPoint, path, error);
         if (error.response) {
           reject({status: 400, msg: error.response.data});
         } else {
@@ -299,7 +303,7 @@ const postNoToken = (path, fd) => {
         }
       });
 
-    setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
+    // setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
   });
 };
 
@@ -319,7 +323,7 @@ const storeFile = async (path, token, fd) => {
         resolve(res.data);
       })
       .catch(error => {
-        logError(endPoint,path,error)
+        logError(endPoint, path, error);
         reject(error);
       });
   });
@@ -341,22 +345,22 @@ const storeFilePut = async (path, token, fd) => {
         resolve(res);
       })
       .catch(error => {
-        logError(endPoint,path,error);
+        logError(endPoint, path, error);
         reject({status: 400, msg: 'Connection Error. Please try again later'});
       });
 
-    setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
+    // setTimeout(() => reject({status: 500, msg: 'Connection Error. Please try again later'}), 50000);
   });
 };
 
-const logError = (endPoint,path,error) => {
+const logError = (endPoint, path, error) => {
   let msg = error.response ? error.response : error;
   let fd = {
-    endpoint : `${endPoint}${path}`,
-    log : JSON.stringify(msg),
-    device : Platform.OS
-  }
-  console.log("logError",fd)
+    endpoint: `${endPoint}${path}`,
+    log: JSON.stringify(msg),
+    device: Platform.OS,
+  };
+  console.log('logError', fd);
   axios({
     url: `${endPoint}/logs/`,
     method: 'post',
@@ -364,67 +368,86 @@ const logError = (endPoint,path,error) => {
     headers: {
       Accept: 'application/json',
     },
-  })
-}
+  });
+};
 
-
-export const handleQuery = (fd,token,timer = true) => {
+export const handleQuery = (fd, token, timer = true) => {
+  // console.log('fd', fd);
+  // console.log('token', token);
   const source = axios.CancelToken.source();
-  global.cancel = source.cancel
-  return new Promise((resolve,reject)=>{
-      axios.post(base_ql_url,{
-          query : `${fd}`
-      },
-      token ? {
-        headers : {
-            Authorization : `Bearer ${token}`
-        }
-    } : null,{
-      cancelToken : source.token
-    }
-      ).then(res=>{
-          if(
-              res && res.data && res.data.errors
-            ){
-            let error = res.data.errors[0]
-            //logError(base_ql_url,fd,error)
-            console.log("error",error);
-            let error_msg = {
-                msg: "Network Error! Please try again",
-                code : 500
-            };
-            if(error && error.extensions && error.extensions.exception && error.extensions.exception.data && 
-              error.extensions.exception.data.data && error.extensions.exception.data.data[0]
-                && error.extensions.exception.data.data[0].messages 
-                && error.extensions.exception.data.data[0].messages[0]
-            ){
-                error_msg = {
-                  msg :  error.extensions.exception.data.data[0].messages[0].message,
-                  code  : error.extensions.exception.code
-                }
+  global.cancel = source.cancel;
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        base_ql_url,
+        {
+          query: `${fd}`,
+        },
+        token
+          ? {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             }
-            return reject(error_msg);
+          : null,
+        {
+          cancelToken: source.token,
+        },
+      )
+      .then(res => {
+        // console.log('res handle query', res);
+        if (res && res.data && res.data.errors) {
+          let error = res.data.errors[0];
+          //logError(base_ql_url,fd,error)
+          console.log('error', error);
+          let error_msg = {
+            msg: 'Network Error! Please try again',
+            code: 500,
+          };
+          if (
+            error &&
+            error.extensions &&
+            error.extensions.exception &&
+            error.extensions.exception.data &&
+            error.extensions.exception.data.data &&
+            error.extensions.exception.data.data[0] &&
+            error.extensions.exception.data.data[0].messages &&
+            error.extensions.exception.data.data[0].messages[0]
+          ) {
+            error_msg = {
+              msg: error.extensions.exception.data.data[0].messages[0].message,
+              code: error.extensions.exception.code,
+            };
           }
-          return resolve(res.data);
-      }).catch(error=>{
-        if(axios.isCancel()){
-          return
+          return reject(error_msg);
         }
+        return resolve(res.data);
+      })
+      .catch(error => {
+        console.log(error);
+        if (axios.isCancel()) {
+          return;
+        }
+
         let error_msg = {
-          msg: "Network Error! Please try again",
-          code : 500
+          msg: 'Network Error! Please try again',
+          code: 500,
         };
-        if(error && error.response && error.response.data && 
-            error.response.data.data && error.response.data.data[0]
-            && error.response.data.data[0].messages 
-            && error.response.data.data[0].messages[0]
-        ){
+        if (
+          error &&
+          error.response &&
+          error.response.data &&
+          error.response.data.data &&
+          error.response.data.data[0] &&
+          error.response.data.data[0].messages &&
+          error.response.data.data[0].messages[0]
+        ) {
           error_msg = {
-              msg :  error.response.data.data[0].messages[0].message,
-              code  : error.response.status
-          }
+            msg: error.response.data.data[0].messages[0].message,
+            code: error.response.status,
+          };
         }
         return reject(error_msg);
       });
   });
-}
+};

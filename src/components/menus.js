@@ -21,17 +21,29 @@ import {GoogleSignin} from '@react-native-community/google-signin';
 import ReferEarn from '../pages/refer_and_earn/refer_earn';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {getData, storeData} from '../helpers/functions';
-import {manageFeedData, manageGroupData, manageTopicData, ReloadGroups } from '../helpers/global_sockets';
-import Fontisto from 'react-native-vector-icons/Fontisto'
-import { FONTSIZE, Version_Number } from '../helpers/constants';
-import { ScrollView } from 'react-native-gesture-handler';
-import { apiFunctions } from '../helpers/api';
+import {manageFeedData, manageGroupData, manageTopicData, ReloadGroups} from '../helpers/global_sockets';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import {FONTSIZE, Version_Number} from '../helpers/constants';
+import {ScrollView} from 'react-native-gesture-handler';
+import {apiFunctions} from '../helpers/api';
 
 //const drawerRouteIcon = ['home', 'package', 'calendar','refresh-cw','file-text', 'thumbs-up', 'gift', 'box', 'settings', 'phone'];
-const drawerRouteIcon = ['home','pocket', 'refresh-cw','file-text','box','thumbs-up','calendar','gift','package','phone','settings'];
+const drawerRouteIcon = [
+  'home',
+  'pocket',
+  'refresh-cw',
+  'file-text',
+  'box',
+  'thumbs-up',
+  'calendar',
+  'gift',
+  'package',
+  'phone',
+  'settings',
+];
 
 // const routeIcon = ['home', 'bag', 'plus', 'message', 'event'];
-const routeIcon = ['home','savings','plus', 'bag','bell'];
+const routeIcon = ['home', 'savings', 'plus', 'bag', 'bell'];
 
 export const HomeTabMenu = props => {
   const [route] = React.useState(props.state.routes);
@@ -199,8 +211,8 @@ export const MainTabMenu = props => {
   const {updateMessages} = useStoreActions(action => ({updateMessages: action.background.updateMessages}));
   const [last_checked, setLastChecked] = React.useState(null);
   const [last_notified, setLastNotified] = React.useState(null);
-  const {tot_notifications} = useStoreState(state=>({
-    tot_notifications : state.notification.tot_notifications
+  const {tot_notifications} = useStoreState(state => ({
+    tot_notifications: state.notification.tot_notifications,
   }));
   const getLastChecked = async () => {
     let checked = await getData('last_checked');
@@ -245,37 +257,38 @@ export const MainTabMenu = props => {
             if (el.name === 'Notifications') {
               return (
                 <Container key={i} widthPercent="20%">
-                  {
-                    tot_notifications ? (
-                      <Container position="absolute" 
-                        backgroundColor={"red"}
-                        borderRadius={50}
-                        padding={1}
-                        width={tot_notifications.toString().length > 2 ? 9 : 7}
-                        marginTop={-2}
-                        marginLeft={5}
-                        horizontalAlignment="center"
-                        verticalAlignment="center"
-                      >
-                        <H1 color={Colors.white} fontSize={8}>
-                          {tot_notifications}
-                        </H1>
+                  {tot_notifications ? (
+                    <Container
+                      position="absolute"
+                      backgroundColor={'red'}
+                      borderRadius={50}
+                      padding={1}
+                      width={tot_notifications.toString().length > 2 ? 9 : 7}
+                      marginTop={-2}
+                      marginLeft={5}
+                      horizontalAlignment="center"
+                      verticalAlignment="center">
+                      <H1 color={Colors.white} fontSize={8}>
+                        {tot_notifications}
+                      </H1>
                     </Container>
-                    ) : null
-                  }
+                  ) : null}
                   <TouchWrap
                     flex={i}
                     onPress={() => {
                       props.navigation.navigate(el.name);
                       // updateMessages('');
                     }}>
-                    <Container horizontalAlignment="center"
-                      verticalAlignment="center"
-                      paddingVertical={0.8}
-                    >
-                      <Feather name={routeIcon[i]} size={scaleFont(FONTSIZE.icon)} color={i === props.state.index ? Colors.primary : '#231F20'} />
+                    <Container horizontalAlignment="center" verticalAlignment="center" paddingVertical={0.8}>
+                      <Feather
+                        name={routeIcon[i]}
+                        size={scaleFont(FONTSIZE.icon)}
+                        color={i === props.state.index ? Colors.primary : '#231F20'}
+                      />
                       <SizedBox height={0.2} />
-                      <P color={i === props.state.index ? Colors.primary : '#231F20'} fontSize={5}>{el.name}</P>
+                      <P color={i === props.state.index ? Colors.primary : '#231F20'} fontSize={5}>
+                        {el.name}
+                      </P>
                     </Container>
                   </TouchWrap>
                 </Container>
@@ -289,20 +302,22 @@ export const MainTabMenu = props => {
                     props.navigation.navigate(el.name);
                   }}>
                   <Container horizontalAlignment="center" paddingVertical={1}>
-                  {
-                        el.name === "Savings" ? (
-                          <Fontisto name="wallet" size={scaleFont(FONTSIZE.icon)}
-                            color={i === props.state.index ? Colors.primary : '#231F20'} 
-                          />
-                        ) : (
-                          <CustomIcon name={routeIcon[i]} size={scaleFont(FONTSIZE.icon)} 
-                            color={i === props.state.index ? Colors.primary : '#231F20'} 
-                          />
-                        )
-                      }
+                    {el.name === 'Savings' ? (
+                      <Fontisto
+                        name="wallet"
+                        size={scaleFont(FONTSIZE.icon)}
+                        color={i === props.state.index ? Colors.primary : '#231F20'}
+                      />
+                    ) : (
+                      <CustomIcon
+                        name={routeIcon[i]}
+                        size={scaleFont(FONTSIZE.icon)}
+                        color={i === props.state.index ? Colors.primary : '#231F20'}
+                      />
+                    )}
                     <SizedBox height={0.2} />
                     <P fontSize={5} color={i === props.state.index ? Colors.primary : '#231F20'}>
-                      {el.name === "Oppo" ? "Opportunities" : el.name}
+                      {el.name === 'Oppo' ? 'Opportunities' : el.name}
                     </P>
                   </Container>
                 </TouchWrap>
@@ -346,38 +361,46 @@ export const ProfileTabMenu = props => {
 export const DrawerMenu = props => {
   const [route] = React.useState(props.state.routes);
   const {setCurrentState} = React.useContext(RouteContext);
-  const {userD, _subscriptionStatus,group_data,cur_grp_posts} = useStoreState(state => ({
+  const {userD, _subscriptionStatus, group_data, cur_grp_posts} = useStoreState(state => ({
     userD: state.userDetails.user,
     _subscriptionStatus: state.userDetails.subscriptionStatus,
-    group_data : state.community.group_data,
-    cur_grp_posts : state.community.cur_grp_posts
+    group_data: state.community.group_data,
+    cur_grp_posts: state.community.cur_grp_posts,
   }));
 
-  const {updateResult,updateFeedData,updateCurrentFeed,
-    updateTopicData,updateGroupData,updateContactInfo,updateFeedHolders,
-    updateCurGrpPosts,updateCurTopicPosts,updateTopicHolders,
+  const {
+    updateResult,
+    updateFeedData,
+    updateCurrentFeed,
+    updateTopicData,
+    updateGroupData,
+    updateContactInfo,
+    updateFeedHolders,
+    updateCurGrpPosts,
+    updateCurTopicPosts,
+    updateTopicHolders,
     _updateFetchContact,
-    updateSenders
-  } = useStoreActions(action=>({
-    updateResult : action.resultModel.updateResult,
-    updateFeedData : action.community.updateFeedData,
-    updateCurrentFeed : action.community.updateCurrentFeed,
-    updateTopicData : action.community.updateTopicData,
-    updateGroupData : action.community.updateGroupData,
-    updateFeedHolders : action.community.updateFeedHolders,
-    updateContactInfo : action.community.updateContactInfo,
-    updateCurGrpPosts : action.community.updateCurGrpPosts,
-    updateCurTopicPosts : action.community.updateCurTopicPosts,
-    updateTopicHolders : action.community.updateTopicHolders,
-    _updateFetchContact : action.community.updateFetchContact,
-    updateSenders : action.community.updateSenders
+    updateSenders,
+  } = useStoreActions(action => ({
+    updateResult: action.resultModel.updateResult,
+    updateFeedData: action.community.updateFeedData,
+    updateCurrentFeed: action.community.updateCurrentFeed,
+    updateTopicData: action.community.updateTopicData,
+    updateGroupData: action.community.updateGroupData,
+    updateFeedHolders: action.community.updateFeedHolders,
+    updateContactInfo: action.community.updateContactInfo,
+    updateCurGrpPosts: action.community.updateCurGrpPosts,
+    updateCurTopicPosts: action.community.updateCurTopicPosts,
+    updateTopicHolders: action.community.updateTopicHolders,
+    _updateFetchContact: action.community.updateFetchContact,
+    updateSenders: action.community.updateSenders,
   }));
   const logout = async () => {
     try {
       const keys = await AsyncStorage.getAllKeys();
       await AsyncStorage.multiRemove(keys);
     } catch (error) {
-      console.log("err",error);
+      console.log('err', error);
     }
     updateFeedData([]);
     updateCurrentFeed({});
@@ -393,70 +416,66 @@ export const DrawerMenu = props => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-    } catch (error) {
-    }
+    } catch (error) {}
   };
   const getSocialData = () => {
-    global.socket.off('get_feeds').on('get_feeds',async (data) =>{
-      if(data.message) return;
-      let arr = await manageFeedData(data,'feeds');
-      console.log("getSocialData--",data,arr);
-      Array.isArray(arr) ? updateFeedData([...arr]) : 
-      updateCurrentFeed({...arr});
-      updateFeedHolders([])
+    global.socket.off('get_feeds').on('get_feeds', async data => {
+      if (data.message) return;
+      let arr = await manageFeedData(data, 'feeds');
+      console.log('getSocialData--', data, arr);
+      Array.isArray(arr) ? updateFeedData([...arr]) : updateCurrentFeed({...arr});
+      updateFeedHolders([]);
     });
-    global.socket.off('get_topics').on('get_topics',async (data)=>{
-      if(data.message) return;
-      console.log("gettopics-response",data)
+    global.socket.off('get_topics').on('get_topics', async data => {
+      if (data.message) return;
+      console.log('gettopics-response', data);
       let arr = await manageTopicData(data);
-      console.log("gettopics-arr",arr)
-      await storeData("topic_update",true);
-      if(arr && !Array.isArray(arr)){
+      console.log('gettopics-arr', arr);
+      await storeData('topic_update', true);
+      if (arr && !Array.isArray(arr)) {
         updateCurTopicPosts([arr]);
       }
       updateTopicHolders([]);
-      if(arr && Array.isArray(arr)){
+      if (arr && Array.isArray(arr)) {
         let res = [...arr];
         updateCurTopicPosts(res);
       }
     });
-    global.socket.off(`get_all_topics_${userD.id}`).on(`get_all_topics_${userD.id}`,async ({res})=>{
-      if(res.message) return
-      let user = await getData("user");
-      let token = await getData("token");
-      let resp = await apiFunctions.onboarding1(token,user.id, {'onboarded':1});
-      if(resp.compromised){
-        return logout()
+    global.socket.off(`get_all_topics_${userD.id}`).on(`get_all_topics_${userD.id}`, async ({res}) => {
+      if (res.message) return;
+      let user = await getData('user');
+      let token = await getData('token');
+      let resp = await apiFunctions.onboarding1(token, user.id, {onboarded: 1});
+      if (resp.compromised) {
+        return logout();
       }
-      storeData("topics",res);
+      storeData('topics', res);
       updateTopicData(res);
     });
-  }
+  };
 
   const checkCurrentVersion = async () => {
-    try{
-      let res = await apiFunctions.getCurrentVersion(token)
-      if(Number(res.version) > Version_Number){
-        navigation.navigate("AppUpgrade");
+    try {
+      let res = await apiFunctions.getCurrentVersion(token);
+      if (Number(res.version) > Version_Number) {
+        navigation.navigate('AppUpgrade');
       }
-    }catch(err){
-    }
-  }
+    } catch (err) {}
+  };
 
   const getMsgNotification = async () => {
-    try{
+    try {
       let res = await apiFunctions.getMsgNotification(token);
       updateSenders(res.length);
-    }catch(error){
-    }
-  }
+    } catch (error) {}
+  };
 
   const getAllTopics = () => {
-    global.socket.emit('get_all_topics', {token: global.token }, async (data) => {});
+    global.socket.emit('get_all_topics', {token: global.token}, async data => {});
     global.socket.off(`unfollow_topic_${userD.id}`).on(`unfollow_topic_${userD.id}`, async ({res}) => {
-      if(res.message) return
-      let topic_data = await getData("topics");
-      if(!topic_data) return;
+      if (res.message) return;
+      let topic_data = await getData('topics');
+      if (!topic_data) return;
       var index = topic_data
         .map(function(e) {
           return e.id;
@@ -466,19 +485,19 @@ export const DrawerMenu = props => {
       let arr = [...topic_data];
       arr[index] = res;
       updateTopicData([...arr]);
-      storeData('topics',arr);
+      storeData('topics', arr);
     });
-  }
-  const getContactInfo = () =>{
+  };
+  const getContactInfo = () => {
     global.socket.off(`get_contact_info_${userD.id}`).on(`get_contact_info_${userD.id}`, async ({res}) => {
-      console.log("getContactInfo-res",res);
-      if(res.message || Array.isArray(res)) {
-        await storeData("contact_info",null);
+      console.log('getContactInfo-res', res);
+      if (res.message || Array.isArray(res)) {
+        await storeData('contact_info', null);
         updateContactInfo(null);
-        _updateFetchContact(true)
-        return
+        _updateFetchContact(true);
+        return;
       }
-      console.log("getContactInfo-arra",res);
+      console.log('getContactInfo-arra', res);
       let data = res;
       let groupArray = [];
       if (data.sent_requests) {
@@ -502,45 +521,43 @@ export const DrawerMenu = props => {
 
         data.sorted_contacts = groupArray;
       }
-      await storeData("contact_info",data);
+      await storeData('contact_info', data);
       updateContactInfo({...data});
-      _updateFetchContact(true)
+      _updateFetchContact(true);
     });
-    global.socket.emit('get_contact_info', {token: global.token }, data => {
-    });
-  }
+    global.socket.emit('get_contact_info', {token: global.token}, data => {});
+  };
   const getAllGroups = () => {
     global.socket.off(`get_all_groups_${userD.id}`).on(`get_all_groups_${userD.id}`, ({res}) => {
-      console.log(' chinedu getAllGroup',res);
-      if(res.message) return
+      if (res.message) return;
       Array.isArray(res) ? res.sort((a, b) => a.name.localeCompare(b.name)) : null;
-      if(Array.isArray(res)){
+      if (Array.isArray(res)) {
         updateGroupData(res);
         storeData('groups', res);
       }
     });
-    
-    global.socket.emit('get_all_groups', {token: global.token }, ({res}) => {});
 
-    global.socket.off('get_all_groups_members').on('get_all_groups_members', async (data) => {
-      global.socket.emit('get_all_groups', {token: global.token }, ({res}) => {});
-      global.socket.emit('get_all_topics', {token: global.token }, ({res}) => {});
+    global.socket.emit('get_all_groups', {token: global.token}, ({res}) => {});
+
+    global.socket.off('get_all_groups_members').on('get_all_groups_members', async data => {
+      global.socket.emit('get_all_groups', {token: global.token}, ({res}) => {});
+      global.socket.emit('get_all_topics', {token: global.token}, ({res}) => {});
     });
-  }
+  };
 
   React.useEffect(() => {
     checkCurrentVersion();
     getMsgNotification();
-    let x = setInterval(()=>{
-      if(!global.socket){
+    let x = setInterval(() => {
+      if (!global.socket) {
         return;
       }
       clearInterval(x);
       getSocialData();
       getAllTopics();
-      getAllGroups()
-      getContactInfo()
-    })
+      getAllGroups();
+      getContactInfo();
+    });
     GoogleSignin.configure({
       webClientId: '470433460061-5aookol460l1qt77r02doc9u8ic3ab1h.apps.googleusercontent.com',
       offlineAccess: true,
@@ -565,75 +582,75 @@ export const DrawerMenu = props => {
             <H2 fontSize={10}>
               {userD.first_name} {userD.last_name}
             </H2>
-            <P fontSize={7}>{userD && userD.location && userD.location != "0" ? userD.location : null}</P>
+            <P fontSize={7}>{userD && userD.location && userD.location != '0' ? userD.location : null}</P>
           </Container>
         </Container>
       </TouchWrap>
 
       <ScrollView>
-      {route.map((el, i) => (
-        <Container key={i}>
-          <TouchWrap
-            onPress={() => {
-              console.log("<<||>>>")
-              props.navigation.navigate(el.name);
-            }}>
-            <Container
-              direction="row"
-              verticalAlignment="center"
-              borderRadius={5}
-              paddingHorizontal={4}
-              paddingVertical={1.5}
-              backgroundColor={i === props.state.index ? Colors.primary : null}>
-              {i === 0 ? (
+        {route.map((el, i) => (
+          <Container key={i}>
+            <TouchWrap
+              onPress={() => {
+                console.log('<<||>>>');
+                props.navigation.navigate(el.name);
+              }}>
+              <Container
+                direction="row"
+                verticalAlignment="center"
+                borderRadius={5}
+                paddingHorizontal={4}
+                paddingVertical={1.5}
+                backgroundColor={i === props.state.index ? Colors.primary : null}>
+                {i === 0 ? (
                   <CustomIcon name={drawerRouteIcon[i]} size={scaleFont(15)} color={Colors.black} />
                 ) : i === 1 ? (
                   <Fontisto name="wallet" size={scaleFont(15)} />
                 ) : (
                   <Feather Icon name={drawerRouteIcon[i]} size={scaleFont(15)} color={Colors.black} />
                 )}
-              <SizedBox width={5} />
-              <H2 fontSize={9} color={i === props.state.index ? Colors.white : Colors.greyBase900}>
-                {el.name === 'ReferEarn'
-                  ? 'Refer & Earn'
-                  : el.name === 'Affinity'
-                  ? 'Discounts'
-                  : el.name === 'GiftSomeone'
-                  ? 'Gift Someone'
-                  : el.name === 'Privacy'
-                  ? 'Privacy'
-                  : el.name === 'Applications'
-                  ? 'My Applications'
-                  : el.name === 'Resources'
-                  ? 'Learning'
-                  : el.name}
-              </H2>
-            </Container>
-          </TouchWrap>
-          <SizedBox height={1} />
-        </Container>
-      ))}
+                <SizedBox width={5} />
+                <H2 fontSize={9} color={i === props.state.index ? Colors.white : Colors.greyBase900}>
+                  {el.name === 'ReferEarn'
+                    ? 'Refer & Earn'
+                    : el.name === 'Affinity'
+                    ? 'Discounts'
+                    : el.name === 'GiftSomeone'
+                    ? 'Gift Someone'
+                    : el.name === 'Privacy'
+                    ? 'Privacy'
+                    : el.name === 'Applications'
+                    ? 'My Applications'
+                    : el.name === 'Resources'
+                    ? 'Learning'
+                    : el.name}
+                </H2>
+              </Container>
+            </TouchWrap>
+            <SizedBox height={1} />
+          </Container>
+        ))}
 
-      <Container height={0.1} backgroundColor={Colors.greyBase900} marginTop={2} marginBottom={2} />
+        <Container height={0.1} backgroundColor={Colors.greyBase900} marginTop={2} marginBottom={2} />
 
-      <TouchWrap onPress={logout}>
-        <Container borderRadius={5} paddingHorizontal={4} paddingVertical={1.5} direction="row" verticalAlignment="center">
-          <Feather Icon name="log-out" size={scaleFont(20)} color={Colors.black} />
-          <SizedBox width={5} />
-          <H2 fontSize={9} color={Colors.greyBase900}>
-            Logout
-          </H2>
-        </Container>
-      </TouchWrap>
-      <SizedBox height={0.5} />
-      {!_subscriptionStatus.sub_status || (_subscriptionStatus.plan && _subscriptionStatus.plan.name !== 'ags_gold_50000') ? (
-        <Button
-          title="Upgrade"
-          onPress={() => props.navigation.navigate('Upgrade', !_subscriptionStatus.sub_status ? {tabs: [4, 6]} : {tabs: [6]})}
-        />
-      ) : null}
+        <TouchWrap onPress={logout}>
+          <Container borderRadius={5} paddingHorizontal={4} paddingVertical={1.5} direction="row" verticalAlignment="center">
+            <Feather Icon name="log-out" size={scaleFont(20)} color={Colors.black} />
+            <SizedBox width={5} />
+            <H2 fontSize={9} color={Colors.greyBase900}>
+              Logout
+            </H2>
+          </Container>
+        </TouchWrap>
+        <SizedBox height={0.5} />
+        {!_subscriptionStatus.sub_status || (_subscriptionStatus.plan && _subscriptionStatus.plan.name !== 'ags_gold_50000') ? (
+          <Button
+            title="Upgrade"
+            onPress={() => props.navigation.navigate('Upgrade', !_subscriptionStatus.sub_status ? {tabs: [4, 6]} : {tabs: [6]})}
+          />
+        ) : null}
       </ScrollView>
-      <SizedBox height={2}/>
+      <SizedBox height={2} />
     </Container>
   );
 };

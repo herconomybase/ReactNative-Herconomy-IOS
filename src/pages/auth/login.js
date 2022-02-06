@@ -13,8 +13,8 @@ import {storeData, getData} from '../../helpers/functions';
 import {AppleButton, appleAuth} from '@invertase/react-native-apple-authentication';
 import axios from 'axios';
 import {apiFunctions, endPoint} from '../../helpers/api';
-import { FONTSIZE } from '../../helpers/constants';
-import { getUniqueId, getManufacturer,getDeviceId,getDeviceName,getIpAddress,getDeviceType,getBaseOs} from 'react-native-device-info';
+import {FONTSIZE} from '../../helpers/constants';
+import {getUniqueId, getManufacturer, getDeviceId, getDeviceName, getIpAddress, getDeviceType, getBaseOs} from 'react-native-device-info';
 
 const SignIn = props => {
   const inputOne = useRef(null);
@@ -32,7 +32,7 @@ const SignIn = props => {
 
   const updateUser = useStoreActions(actions => actions.userDetails.updateUser);
   const updateToken = useStoreActions(actions => actions.userDetails.updateToken);
-  const [secure,setSecure] = React.useState(true)
+  const [secure, setSecure] = React.useState(true);
   /*   //google auth
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -99,16 +99,17 @@ const SignIn = props => {
         let device_ip = await getIpAddress();
         let device_type = await getDeviceType();
         let fd = {
-          device : `${device_id}|${device_name}|${device_ip}|${device_type}|${Platform.OS}`
-        }
-        let token = await getData("token")
-        apiFunctions.send_mail(token,fd);
+          device: `${device_id}|${device_name}|${device_ip}|${device_type}|${Platform.OS}`,
+        };
+        let token = await getData('token');
+        console.log('token', token);
+        apiFunctions.send_mail(token, fd);
         setLoading(false);
-        storeData('tourscreen', true)
+        storeData('tourscreen', true);
         res.onboarded ? setCurrentState('main') : setCurrentState('onboard');
       }
     } catch (error) {
-      console.log("Err",error)
+      console.log('Err', error);
       setLoading(false);
     }
   };
@@ -129,7 +130,7 @@ const SignIn = props => {
         updateUser(res.data.user);
         updateToken(res.data.token);
         global.token = res.token;
-        storeData('tourscreen', true)
+        storeData('tourscreen', true);
         res.data.user.onboarded ? setCurrentState('main') : setCurrentState('onboard');
 
         setLoading(false);
@@ -335,8 +336,8 @@ const SignIn = props => {
                   paddingTop={1.5}
                   paddingBottom={1.5}
                   textAlignVertical="center"
-                  secureIcon={<Feather Icon name={secure ? "eye" : "eye-off"} color={Colors.black} size={scaleFont(FONTSIZE.icon)} />}
-                  onToggleSecure={()=>setSecure(!secure)}
+                  secureIcon={<Feather Icon name={secure ? 'eye' : 'eye-off'} color={Colors.black} size={scaleFont(FONTSIZE.icon)} />}
+                  onToggleSecure={() => setSecure(!secure)}
                 />
                 <SizedBox height={3} />
                 <Container flex={1} backgroundColor={Colors.primary} borderTopLeftRadius={50}>

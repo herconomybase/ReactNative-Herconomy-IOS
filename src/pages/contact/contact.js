@@ -49,7 +49,6 @@ const ContactUs = props => {
       localizedDismissButtonTitle: 'Dismiss',
     });
   };
-
   useEffect(() => {
     ZendeskChat.init('IDqSkPEeQs0m1610bUZ0gjMMyapLiXLd');
     const unsubscribe = props.navigation.addListener('focus', () => {
